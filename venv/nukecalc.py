@@ -1,10 +1,11 @@
 # Calculator for nuclear power setups in Factorio
 from math import ceil
 
+
 def round_up_to_even(f):
     return ceil(f / 2.) * 2
 
-mode = ""
+
 while True:
     mode = input("[A] Normal Mode\n[B] EZ Mode (Vanilla Only)\n")
     mode = mode.lower()
@@ -16,7 +17,8 @@ while True:
 if mode == "a":
     modset = ""
     while True:
-        modset = input("Which mod set are you using?\n[A] Bob's Mods\n[B] Space Exploration\n[C] Vanilla/Angel's\n(Bob's Power overwrites Angel's nuclear if used together)\n")
+        modset = input("Which mod set are you using?\n[A] Bob's Mods\n[B] Space Exploration\n[C] Vanilla/Angel's\n"
+                       "(Bob's Power overwrites Angel's nuclear if used together)\n")
         modset = modset.lower()
         if modset not in ("a", "b", "c"):
             print("Invalid input.")
@@ -37,7 +39,7 @@ if mode == "a":
     exchangerlevel = 0
 
     if modset == "a":
-        while exchangerlevel != 1 or 2 or 3:
+        while exchangerlevel not in (1, 2, 3):
             exchangerlevel = input("Heat Exchanger Tier (1-3): ")
             exchangerlevel = int(exchangerlevel)
             if 0 < exchangerlevel < 4:
@@ -133,7 +135,6 @@ if mode == "a":
             print("Total Offshore Pumps Needed:", round_up_to_even(neededpumps))
 
     if modset == "c":
-        exchangerlevel == 1
         exchangerconsumption = 10
 
         turbinelevel = 1
@@ -186,4 +187,4 @@ if mode == "b":
         print("This setup will make 1120MW")
 
     if powerneeded > 1120:
-        print("Use Normal Mode and leave me alone.")            
+        print("Use Normal Mode and leave me alone.")
