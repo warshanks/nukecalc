@@ -93,7 +93,7 @@ def calculate_nuclear_setup(reactor_tier, reactor_count, exchanger_tier, turbine
 
 
 def main():
-    print("--- Bob's Mods Nuclear Calculator ---")
+    print("--- Bob's Mods Nuclear Power Calculator ---")
 
     reactor_tier = get_valid_input("Reactor Tier (1-3): ", [1, 2, 3])
 
