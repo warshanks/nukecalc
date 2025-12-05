@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Animate numbers? For now, just set them.
         outputTotal.textContent = `${results.totalOutput.toLocaleString()} MW`;
         outputExchangers.textContent = roundUpToEven(results.neededExchangers);
-        outputModules.textContent = `${Math.ceil(results.exchangerModules)} groups of 20 heat exchangers`;
+        outputModules.textContent = `${Math.ceil(results.exchangerModules)} groups of 20 heat exchangers (2x10)`;
         outputTurbines.textContent = roundUpToEven(results.neededTurbines);
         outputPumps.textContent = roundUpToEven(results.neededPumps);
     }
