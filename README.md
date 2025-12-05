@@ -3,7 +3,9 @@
 [![Python 3](https://img.shields.io/badge/Python-3-blue.svg)](https://www.python.org/)
 [![Factorio](https://img.shields.io/badge/Factorio-Bob's_Mods-orange.svg)](https://mods.factorio.com/mod/bobpower)
 
-**NukeCalc** is a powerful command-line tool designed to help Factorio engineers calculate the perfect ratios for their nuclear power plants. Specifically tailored for **Bob's Power Mod**, it handles the complex math behind reactor tiers, neighbor bonuses, and heat exchanger/turbine ratios so you can focus on expanding your factory.
+**NukeCalc** is a powerful tool designed to help Factorio engineers calculate the perfect ratios for their nuclear power plants. Specifically tailored for **Bob's Power Mod**, it handles the complex math behind reactor tiers, neighbor bonuses, and heat exchanger/turbine ratios.
+
+Available as both a **modern Web App** and a classic **Command-Line Interface (CLI)**.
 
 ## ✨ Features
 
@@ -36,7 +38,18 @@ You need **Python 3** installed on your machine.
 
 ## 🎮 Usage
 
-Run the calculator using Python:
+### 🌐 Web App (New!)
+
+The easiest way to use NukeCalc is through the new modern web interface.
+
+1.  Simply open `index.html` in your favorite web browser.
+    *   *Mac/Linux*: `open index.html`
+    *   *Windows*: Double-click `index.html`
+2.  Enjoy the premium dark-mode interface with real-time calculations.
+
+### 💻 Command Line
+
+Run the classic calculator using Python:
 
 ```bash
 python3 nukecalc.py

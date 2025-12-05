@@ -125,7 +125,7 @@ def main():
     results = calculate_nuclear_setup(reactor_tier, reactor_count, exchanger_tier, turbine_tier)
 
     print("\n--- Results ---")
-    print("Total Reactor Output: ", results["total_output"])
+    print("Total Reactor Output: ", results["total_output"], "MW")
     print(f"Total Tier {exchanger_tier} Exchangers Needed: ", round_up_to_even(results["needed_exchangers"]))
     print(f"Total Tier {turbine_tier} Turbines Needed: ", round_up_to_even(results["needed_turbines"]))
     print("Total Offshore Pumps Needed:", round_up_to_even(results["needed_pumps"]))

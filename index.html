@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NukeCalc - Factorio Nuclear Power Calculator</title>
+    <meta name="description" content="Advanced nuclear power calculator for Factorio Bob's Mods. Optimized for 2xN reactor layouts.">
+
+    <!-- Google Fonts: Inter and Orbitron -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <div class="logo">
+                <span class="icon">☢️</span>
+                <h1>NukeCalc</h1>
+            </div>
+            <p class="subtitle">Bob's Mods Edition</p>
+        </header>
+
+        <main>
+            <section class="calculator-card glass">
+                <div class="input-group">
+                    <label for="reactor-tier">Reactor Tier</label>
+                    <select id="reactor-tier">
+                        <option value="1">Tier 1</option>
+                        <option value="2" selected>Tier 2</option>
+                        <option value="3">Tier 3</option>
+                        <option value="MOX">MOX Reactor</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label for="reactor-count">Reactor Layout (2 x N)</label>
+                    <div class="input-wrapper">
+                        <span class="prefix">2 x</span>
+                        <input type="number" id="reactor-count" value="2" min="1" step="1">
+                    </div>
+                    <small>Enter '2' for a 2x2 setup (4 reactors total)</small>
+                </div>
+
+                <div class="input-group">
+                    <label for="exchanger-tier">Heat Exchanger Tier</label>
+                    <select id="exchanger-tier">
+                        <option value="1">Tier 1</option>
+                        <option value="2" selected>Tier 2</option>
+                        <option value="3">Tier 3</option>
+                        <option value="4">Tier 4</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label for="turbine-tier">Steam Turbine Tier</label>
+                    <select id="turbine-tier">
+                        <option value="1">Tier 1</option>
+                        <option value="2" selected>Tier 2</option>
+                        <option value="3">Tier 3</option>
+                    </select>
+                </div>
+            </section>
+
+            <section class="results-container">
+                <div class="result-card glass">
+                    <div class="result-icon">⚡</div>
+                    <div class="result-info">
+                        <h3>Total Output</h3>
+                        <p id="total-output">0 MW</p>
+                    </div>
+                </div>
+
+                <div class="result-card glass">
+                    <div class="result-icon">♨️</div>
+                    <div class="result-info">
+                        <h3>Heat Exchangers</h3>
+                        <p id="needed-exchangers">0</p>
+                        <small id="exchanger-modules">0 groups of 20</small>
+                    </div>
+                </div>
+
+                <div class="result-card glass">
+                    <div class="result-icon">💨</div>
+                    <div class="result-info">
+                        <h3>Steam Turbines</h3>
+                        <p id="needed-turbines">0</p>
+                    </div>
+                </div>
+
+                <div class="result-card glass">
+                    <div class="result-icon">💧</div>
+                    <div class="result-info">
+                        <h3>Offshore Pumps</h3>
+                        <p id="needed-pumps">0</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>Designed for Factorio Engineers. <em>The factory must grow.</em></p>
+        </footer>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
