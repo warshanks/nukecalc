@@ -5,7 +5,8 @@ from math import ceil
 REACTOR_OUTPUTS = {
     1: 54,
     2: 72,
-    3: 90
+    3: 90,
+    "MOX": 20
 }
 
 EXCHANGER_CONSUMPTION = {
@@ -46,7 +47,7 @@ def get_valid_input(prompt, valid_options, transform=int):
             if value in valid_options:
                 return value
             else:
-                print(f"Invalid input. Please enter one of: {sorted(list(valid_options))}")
+                print(f"Invalid input. Please enter one of: {sorted(list(valid_options), key=str)}")
         except ValueError:
             print("Invalid input. Please enter a number.")
 
@@ -95,7 +96,12 @@ def calculate_nuclear_setup(reactor_tier, reactor_count, exchanger_tier, turbine
 def main():
     print("--- Bob's Mods Nuclear Power Calculator ---")
 
-    reactor_tier = get_valid_input("Reactor Tier (1-3): ", [1, 2, 3])
+    def parse_reactor_tier(val):
+        if val.lower() == "mox":
+            return "MOX"
+        return int(val)
+
+    reactor_tier = get_valid_input("Reactor Tier (1-3, or 'MOX'): ", [1, 2, 3, "MOX"], transform=parse_reactor_tier)
 
     # Reactor count logic: Input is X for 2xX, so actual count is 2*X
     # The original code asked for "Number of Reactors (2 x X)" and multiplied input by 2.
