@@ -70,16 +70,23 @@ def calculate_nuclear_setup(reactor_tier, reactor_count, exchanger_tier, turbine
     turbine_output_per_unit = TURBINE_OUTPUT[turbine_tier]
 
     # Calculate Neighbor Bonus
+    neighbor_bonus = 1.5 if str(reactor_tier).upper() == "MOX" else 1.0
+
     if reactor_count == 1:
         total_output = reactor_output_per_unit
     elif reactor_count == 2:
-        total_output = reactor_output_per_unit * 4
+        # Each reactor has 1 neighbor -> (1 + 1 * bonus)
+        multiplier = 1 + neighbor_bonus
+        total_output = reactor_count * reactor_output_per_unit * multiplier
     else:
         # Logic for 2xN layout where N >= 2
-        # 4 corners get 3x output (2 neighbors)
-        # The rest (reactorcount - 4) get 4x output (3 neighbors)
-        # Note: This formula assumes a standard 2xN layout.
-        total_output = (reactor_output_per_unit * 12) + ((reactor_count - 4) * reactor_output_per_unit * 4)
+        # 4 corners get (1 + 2 * bonus) multiplier
+        # The rest (reactor_count - 4) get (1 + 3 * bonus) multiplier
+        corner_multiplier = 1 + (2 * neighbor_bonus)
+        middle_multiplier = 1 + (3 * neighbor_bonus)
+
+        total_output = (4 * reactor_output_per_unit * corner_multiplier) + \
+                       ((reactor_count - 4) * reactor_output_per_unit * middle_multiplier)
 
     needed_exchangers = total_output / exchanger_consumption
     needed_turbines = total_output / turbine_output_per_unit

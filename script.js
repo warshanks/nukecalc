@@ -34,15 +34,23 @@ function calculateNuclearSetup(reactorTier, reactorCount, exchangerTier, turbine
 
     // Calculate Neighbor Bonus (from nukecalc.py)
     // Calculate Neighbor Bonus (from nukecalc.py)
+    const neighborBonus = (reactorTier === "MOX") ? 1.5 : 1.0;
+
     if (reactorCount === 1) {
         totalOutput = reactorOutputPerUnit;
     } else if (reactorCount === 2) {
-        totalOutput = reactorOutputPerUnit * 4;
+        // Each reactor has 1 neighbor -> (1 + 1 * bonus)
+        const multiplier = 1 + neighborBonus;
+        totalOutput = reactorCount * reactorOutputPerUnit * multiplier;
     } else {
         // Logic for 2xN layout where N >= 2 (so count >= 4)
-        // 4 corners get 3x output (2 neighbors)
-        // The rest (reactorCount - 4) get 4x output (3 neighbors)
-        totalOutput = (reactorOutputPerUnit * 12) + ((reactorCount - 4) * reactorOutputPerUnit * 4);
+        // 4 corners get (1 + 2 * bonus) multiplier
+        // The rest (reactorCount - 4) get (1 + 3 * bonus) multiplier
+        const cornerMultiplier = 1 + (2 * neighborBonus);
+        const middleMultiplier = 1 + (3 * neighborBonus);
+
+        totalOutput = (4 * reactorOutputPerUnit * cornerMultiplier) +
+            ((reactorCount - 4) * reactorOutputPerUnit * middleMultiplier);
     }
 
     const neededExchangers = totalOutput / exchangerConsumption;
