@@ -33,7 +33,10 @@ function calculateNuclearSetup(reactorTier, reactorCount, exchangerTier, turbine
     let totalOutput = 0;
 
     // Calculate Neighbor Bonus (from nukecalc.py)
-    if (reactorCount === 2) {
+    // Calculate Neighbor Bonus (from nukecalc.py)
+    if (reactorCount === 1) {
+        totalOutput = reactorOutputPerUnit;
+    } else if (reactorCount === 2) {
         totalOutput = reactorOutputPerUnit * 4;
     } else {
         // Logic for 2xN layout where N >= 2 (so count >= 4)
@@ -72,15 +75,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function updateCalculations() {
         const rTier = reactorTierInput.value;
-        const rows = parseInt(reactorRowsInput.value) || 1; // Default to 1 if empty/invalid
-        const reactorCount = rows * 2; // Logic: Input is X for 2xX
+        const rows = parseFloat(reactorRowsInput.value) || 1; // Default to 1 if empty/invalid
+        let reactorCount;
+
+        if (rows === 0.5) {
+            reactorCount = 1;
+        } else {
+            // Logic: Input is X for 2xX
+            reactorCount = Math.floor(Math.max(1, rows)) * 2;
+        }
+
         const eTier = exchangerTierInput.value;
         const tTier = turbineTierInput.value;
 
         // Ensure we have valid inputs for calculation
-        // If rows < 1, technically the python script prompted again. Here we can clamp or just handle.
-        // The HTML input has min="1", so browsers should help, but let's be safe.
-        const validReactorCount = Math.max(2, reactorCount);
+        const validReactorCount = Math.max(1, reactorCount);
 
         const results = calculateNuclearSetup(rTier, validReactorCount, eTier, tTier);
 

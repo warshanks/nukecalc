@@ -1,18 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NukeCalc - Factorio Nuclear Power Calculator</title>
-    <meta name="description" content="Advanced nuclear power calculator for Factorio Bob's Mods. Optimized for 2xN reactor layouts.">
+    <meta name="description"
+        content="Advanced nuclear power calculator for Factorio Bob's Mods. Optimized for 2xN reactor layouts.">
 
     <!-- Google Fonts: Inter and Orbitron -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;500;700&display=swap"
+        rel="stylesheet">
 
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <div class="app-container">
         <header>
@@ -39,9 +44,9 @@
                     <label for="reactor-count">Reactor Layout (2 x N)</label>
                     <div class="input-wrapper">
                         <span class="prefix">2 x</span>
-                        <input type="number" id="reactor-count" value="2" min="1" step="1">
+                        <input type="number" id="reactor-count" value="2" min="0.5" step="0.5">
                     </div>
-                    <small>Enter '2' for a 2x2 setup (4 reactors total)</small>
+                    <small>Enter '2' for a 2x2 setup (4 reactors). Enter '0.5' for a single reactor.</small>
                 </div>
 
                 <div class="input-group">
@@ -106,4 +111,5 @@
     </div>
     <script src="script.js"></script>
 </body>
+
 </html>

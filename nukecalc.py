@@ -70,7 +70,9 @@ def calculate_nuclear_setup(reactor_tier, reactor_count, exchanger_tier, turbine
     turbine_output_per_unit = TURBINE_OUTPUT[turbine_tier]
 
     # Calculate Neighbor Bonus
-    if reactor_count == 2:
+    if reactor_count == 1:
+        total_output = reactor_output_per_unit
+    elif reactor_count == 2:
         total_output = reactor_output_per_unit * 4
     else:
         # Logic for 2xN layout where N >= 2
@@ -109,13 +111,16 @@ def main():
     # We'll accept any positive integer for the 'X' part.
     while True:
         try:
-            rows_input = input("Number of Reactors (2 x X), enter X: ")
-            rows = int(rows_input)
-            if rows >= 1:
-                reactor_count = rows * 2
+            rows_input = input("Number of Reactors (2 x X), enter X (or 0.5 for a single reactor): ")
+            rows = float(rows_input)
+            if rows == 0.5:
+                reactor_count = 1
+                break
+            elif rows >= 1 and rows.is_integer():
+                reactor_count = int(rows) * 2
                 break
             else:
-                print("Please enter a number >= 1.")
+                print("Please enter a number >= 1, or 0.5.")
         except ValueError:
             print("Invalid input. Please enter a number.")
 
