@@ -1,15 +1,15 @@
 # ☢️ NukeCalc
 
 [![Python 3](https://img.shields.io/badge/Python-3-blue.svg)](https://www.python.org/)
-[![Factorio](https://img.shields.io/badge/Factorio-Bob's_Mods-orange.svg)](https://mods.factorio.com/mod/bobpower)
+[![Factorio](https://img.shields.io/badge/Factorio-Bob's_Mods_&_Plutonium-orange.svg)](https://mods.factorio.com/mod/bobpower)
 
-**NukeCalc** is a powerful tool designed to help Factorio engineers calculate the perfect ratios for their nuclear power plants. Specifically tailored for **Bob's Power Mod**, it handles the complex math behind reactor tiers, neighbor bonuses, and heat exchanger/turbine ratios.
+**NukeCalc** is a powerful tool designed to help Factorio engineers calculate the perfect ratios for their nuclear power plants. Specifically tailored for **Bob's Power Mod** and **Plutonium Energy**, it handles the complex math behind reactor tiers, neighbor bonuses, and heat exchanger/turbine ratios.
 
 Available as both a **modern Web App** and a classic **Command-Line Interface (CLI)**.
 
 ## ✨ Features
 
-*   **Multi-Tier Support**: Full support for Bob's Mods tiers:
+*   **Multi-Tier Support**: Full support for Bob's Mods & Plutonium Energy tiers:
     *   Reactors (Tier 1-3 + MOX)
     *   Heat Exchangers (Tier 1-4)
     *   Steam Turbines (Tier 1-3)

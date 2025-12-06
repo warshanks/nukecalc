@@ -1,4 +1,4 @@
-# Calculator for nuclear power setups in Factorio with Bob's Power Mod
+# Calculator for nuclear power setups in Factorio with Bob's Power Mod and Plutonium Energy
 from math import ceil
 
 # Configuration Data
@@ -96,7 +96,7 @@ def calculate_nuclear_setup(reactor_tier, reactor_count, exchanger_tier, turbine
 
 
 def main():
-    print("--- Bob's Mods Nuclear Power Calculator ---")
+    print("--- Bob's Mods & Plutonium Energy Nuclear Power Calculator ---")
 
     def parse_reactor_tier(val):
         if val.lower() == "mox":
