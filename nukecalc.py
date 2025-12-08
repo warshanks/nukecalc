@@ -6,7 +6,8 @@ REACTOR_OUTPUTS = {
     1: 54,
     2: 72,
     3: 90,
-    "MOX": 20
+    "MOX": 20,
+    "Breeder": 20
 }
 
 EXCHANGER_CONSUMPTION = {
@@ -70,7 +71,13 @@ def calculate_nuclear_setup(reactor_tier, reactor_count, exchanger_tier, turbine
     turbine_output_per_unit = TURBINE_OUTPUT[turbine_tier]
 
     # Calculate Neighbor Bonus
-    neighbor_bonus = 1.5 if str(reactor_tier).upper() == "MOX" else 1.0
+    # Calculate Neighbor Bonus
+    if str(reactor_tier).upper() == "MOX":
+        neighbor_bonus = 1.5
+    elif str(reactor_tier).capitalize() == "Breeder":
+        neighbor_bonus = 0.5
+    else:
+        neighbor_bonus = 1.0
 
     if reactor_count == 1:
         total_output = reactor_output_per_unit
@@ -108,9 +115,11 @@ def main():
     def parse_reactor_tier(val):
         if val.lower() == "mox":
             return "MOX"
+        if val.lower() == "breeder":
+            return "Breeder"
         return int(val)
 
-    reactor_tier = get_valid_input("Reactor Tier (1-3, or 'MOX'): ", [1, 2, 3, "MOX"], transform=parse_reactor_tier)
+    reactor_tier = get_valid_input("Reactor Tier (1-3, 'MOX', or 'Breeder'): ", [1, 2, 3, "MOX", "Breeder"], transform=parse_reactor_tier)
 
     # Reactor count logic: Input is X for 2xX, so actual count is 2*X
     # The original code asked for "Number of Reactors (2 x X)" and multiplied input by 2.

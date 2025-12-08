@@ -3,7 +3,8 @@ const REACTOR_OUTPUTS = {
     "1": 54,
     "2": 72,
     "3": 90,
-    "MOX": 20
+    "MOX": 20,
+    "Breeder": 20
 };
 
 const EXCHANGER_CONSUMPTION = {
@@ -34,7 +35,12 @@ function calculateNuclearSetup(reactorTier, reactorCount, exchangerTier, turbine
 
     // Calculate Neighbor Bonus (from nukecalc.py)
     // Calculate Neighbor Bonus (from nukecalc.py)
-    const neighborBonus = (reactorTier === "MOX") ? 1.5 : 1.0;
+    let neighborBonus = 1.0;
+    if (reactorTier === "MOX") {
+        neighborBonus = 1.5;
+    } else if (reactorTier === "Breeder") {
+        neighborBonus = 0.5;
+    }
 
     if (reactorCount === 1) {
         totalOutput = reactorOutputPerUnit;
