@@ -45,7 +45,7 @@ function getRectangularLayouts(count) {
     return layouts;
 }
 
-function getGroupedLayoutSuggestions(totalItems, reactorCount) {
+function getGroupedLayoutSuggestions(totalItems, reactorCount, only2xN = false) {
     // Potential group sizes: 1 (total), 2 (half), and by reactor count
     // We filter out 0 or invalid counts
     const possibleGroups = [1];
@@ -69,7 +69,11 @@ function getGroupedLayoutSuggestions(totalItems, reactorCount) {
         if (totalItems % groups !== 0) continue;
 
         const itemsPerGroup = totalItems / groups;
-        const layouts = getRectangularLayouts(itemsPerGroup);
+        let layouts = getRectangularLayouts(itemsPerGroup);
+
+        if (only2xN) {
+            layouts = layouts.filter(l => l.startsWith("2×"));
+        }
 
         if (layouts.length === 0) continue;
 
@@ -171,7 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
         outputExchangers.textContent = roundUpToEven(results.neededExchangers);
 
         const totalExchangers = roundUpToEven(results.neededExchangers);
-        const exchangerSuggestions = getGroupedLayoutSuggestions(totalExchangers, validReactorCount);
+        const exchangerSuggestions = getGroupedLayoutSuggestions(totalExchangers, validReactorCount, true);
         outputModules.innerHTML = exchangerSuggestions.length > 0
             ? `Potential Layouts:<br>${exchangerSuggestions.join("<br>")}`
             : "No even rectangular layouts found.";

@@ -172,7 +172,7 @@ def main():
     print("Total Offshore Pumps Needed:", ceil(results["needed_pumps"]))
 
     # Grouped Layout Suggestions Logic
-    def get_grouped_layout_suggestions(total_items, reactor_count):
+    def get_grouped_layout_suggestions(total_items, reactor_count, only_2xN=False):
         possible_groups = [1]
         if reactor_count > 1:
             possible_groups.append(reactor_count)
@@ -192,6 +192,9 @@ def main():
             items_per_group = int(total_items / groups)
             layouts = get_layout_options(items_per_group)
 
+            if only_2xN:
+                layouts = [l for l in layouts if l.startswith("2x")]
+
             if not layouts:
                 continue
 
@@ -203,7 +206,7 @@ def main():
         return suggestions
 
     needed_exchangers = round_up_to_even(results["needed_exchangers"])
-    exchanger_suggestions = get_grouped_layout_suggestions(needed_exchangers, reactor_count)
+    exchanger_suggestions = get_grouped_layout_suggestions(needed_exchangers, reactor_count, only_2xN=True)
 
     print(f"Potential Layouts for {needed_exchangers} exchangers:")
     if exchanger_suggestions:
