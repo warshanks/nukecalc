@@ -25,24 +25,62 @@ function roundUpToEven(f) {
     return Math.ceil(f / 2) * 2;
 }
 
-function getLayoutOptions(totalCount) {
+function getRectangularLayouts(count) {
     const layouts = [];
-    for (let r = 2; r <= Math.sqrt(totalCount); r++) { // Start from 2 to exclude 1xN
-        if (totalCount % r === 0) {
-            const c = totalCount / r;
-            layouts.push(`${r}x${c}`);
+    for (let r = 2; r <= Math.sqrt(count); r++) { // Start from 2 to exclude 1xN
+        if (count % r === 0) {
+            const c = count / r;
+            layouts.push(`${r}×${c}`);
             if (r !== c) {
-                layouts.push(`${c}x${r}`);
+                layouts.push(`${c}×${r}`);
             }
         }
     }
     // Sort by rows numerical order
     layouts.sort((a, b) => {
-        const rowA = parseInt(a.split('x')[0]);
-        const rowB = parseInt(b.split('x')[0]);
+        const rowA = parseInt(a.split('×')[0]);
+        const rowB = parseInt(b.split('×')[0]);
         return rowA - rowB;
     });
     return layouts;
+}
+
+function getGroupedLayoutSuggestions(totalItems, reactorCount) {
+    // Potential group sizes: 1 (total), 2 (half), and by reactor count
+    // We filter out 0 or invalid counts
+    const possibleGroups = [1];
+    if (reactorCount > 1) {
+        possibleGroups.push(reactorCount);
+        if (reactorCount % 2 === 0 && reactorCount > 2) {
+            possibleGroups.push(reactorCount / 2); // e.g. for 4 reactors, groups of 2
+        }
+    }
+    // Add 2 as a standard option if not already present and if it makes sense
+    if (!possibleGroups.includes(2) && totalItems % 2 === 0) {
+        possibleGroups.push(2);
+    }
+
+    // sort unique
+    const uniqueGroups = [...new Set(possibleGroups)].sort((a, b) => a - b);
+
+    const suggestions = [];
+
+    for (const groups of uniqueGroups) {
+        if (totalItems % groups !== 0) continue;
+
+        const itemsPerGroup = totalItems / groups;
+        const layouts = getRectangularLayouts(itemsPerGroup);
+
+        if (layouts.length === 0) continue;
+
+        if (groups === 1) {
+            suggestions.push(`${itemsPerGroup} (${layouts.join(", ")})`);
+        } else {
+            suggestions.push(`${groups} groups of ${itemsPerGroup} (${layouts.join(", ")})`);
+        }
+    }
+
+    return suggestions;
 }
 
 // Main Calculation Function
@@ -53,7 +91,6 @@ function calculateNuclearSetup(reactorTier, reactorCount, exchangerTier, turbine
 
     let totalOutput = 0;
 
-    // Calculate Neighbor Bonus (from nukecalc.py)
     // Calculate Neighbor Bonus (from nukecalc.py)
     let neighborBonus = 1.0;
     if (reactorTier === "MOX") {
@@ -134,17 +171,17 @@ document.addEventListener('DOMContentLoaded', () => {
         outputExchangers.textContent = roundUpToEven(results.neededExchangers);
 
         const totalExchangers = roundUpToEven(results.neededExchangers);
-        const exchangerLayouts = getLayoutOptions(totalExchangers);
-        outputModules.textContent = exchangerLayouts.length > 0
-            ? `Recommended Layouts: ${exchangerLayouts.join(", ")}`
+        const exchangerSuggestions = getGroupedLayoutSuggestions(totalExchangers, validReactorCount);
+        outputModules.innerHTML = exchangerSuggestions.length > 0
+            ? `Potential Layouts:<br>${exchangerSuggestions.join("<br>")}`
             : "No even rectangular layouts found.";
 
         const totalTurbines = roundUpToEven(results.neededTurbines);
-        const turbineLayouts = getLayoutOptions(totalTurbines);
+        const turbineSuggestions = getGroupedLayoutSuggestions(totalTurbines, validReactorCount);
 
         outputTurbines.textContent = totalTurbines;
-        outputTurbineLayouts.textContent = turbineLayouts.length > 0
-            ? `Recommended Layouts: ${turbineLayouts.join(", ")}`
+        outputTurbineLayouts.innerHTML = turbineSuggestions.length > 0
+            ? `Potential Layouts:<br>${turbineSuggestions.join("<br>")}`
             : "No non-linear layouts found.";
 
         outputPumps.textContent = Math.ceil(results.neededPumps);
