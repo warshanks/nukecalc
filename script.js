@@ -147,7 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
             ? `Recommended Layouts: ${turbineLayouts.join(", ")}`
             : "No non-linear layouts found.";
 
-        outputPumps.textContent = roundUpToEven(results.neededPumps);
+        outputPumps.textContent = Math.ceil(results.neededPumps);
     }
 
     // Attach listeners
