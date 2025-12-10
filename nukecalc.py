@@ -171,15 +171,56 @@ def main():
     print(f"Total Tier {turbine_tier} Turbines Needed: ", round_up_to_even(results["needed_turbines"]))
     print("Total Offshore Pumps Needed:", ceil(results["needed_pumps"]))
 
+    # Grouped Layout Suggestions Logic
+    def get_grouped_layout_suggestions(total_items, reactor_count):
+        possible_groups = [1]
+        if reactor_count > 1:
+            possible_groups.append(reactor_count)
+            if reactor_count % 2 == 0 and reactor_count > 2:
+                possible_groups.append(int(reactor_count / 2))
+
+        if 2 not in possible_groups and total_items % 2 == 0:
+            possible_groups.append(2)
+
+        unique_groups = sorted(list(set(possible_groups)))
+        suggestions = []
+
+        for groups in unique_groups:
+            if total_items % groups != 0:
+                continue
+
+            items_per_group = int(total_items / groups)
+            layouts = get_layout_options(items_per_group)
+
+            if not layouts:
+                continue
+
+            if groups == 1:
+                suggestions.append(f"{items_per_group} ({', '.join(layouts)})")
+            else:
+                suggestions.append(f"{groups} groups of {items_per_group} ({', '.join(layouts)})")
+
+        return suggestions
+
     needed_exchangers = round_up_to_even(results["needed_exchangers"])
-    exchanger_layouts = get_layout_options(needed_exchangers)
-    print(f"Recommended Layouts (Rows x Columns) for {needed_exchangers} exchangers:")
-    print(", ".join(exchanger_layouts)) if exchanger_layouts else print("No non-linear layouts found.")
+    exchanger_suggestions = get_grouped_layout_suggestions(needed_exchangers, reactor_count)
+
+    print(f"Potential Layouts for {needed_exchangers} exchangers:")
+    if exchanger_suggestions:
+        for suggestion in exchanger_suggestions:
+            print(suggestion)
+    else:
+        print("No even rectangular layouts found.")
 
     needed_turbines = round_up_to_even(results["needed_turbines"])
-    turbine_layouts = get_layout_options(needed_turbines)
-    print(f"Recommended Layouts (Rows x Columns) for {needed_turbines} turbines:")
-    print(", ".join(turbine_layouts)) if turbine_layouts else print("No non-linear layouts found.")
+    turbine_suggestions = get_grouped_layout_suggestions(needed_turbines, reactor_count)
+
+    print(f"Potential Layouts for {needed_turbines} turbines:")
+    if turbine_suggestions:
+        for suggestion in turbine_suggestions:
+            print(suggestion)
+    else:
+        print("No non-linear layouts found.")
 
 
 

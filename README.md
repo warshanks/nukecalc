@@ -12,7 +12,7 @@ Available as both a **modern Web App** and a classic **Command-Line Interface (C
 ## ✨ Features
 
 *   **Multi-Tier Support**: Full support for Bob's Mods & Plutonium Energy tiers:
-    *   Reactors (Tier 1-3 + MOX)
+    *   Reactors (Tier 1-3 + MOX + Breeder)
     *   Heat Exchangers (Tier 1-4)
     *   Steam Turbines (Tier 1-3)
 *   **Smart Calculations**: Automatically calculates total power output based on reactor count and neighbor bonuses.
@@ -60,21 +60,25 @@ Follow the interactive prompts to configure your setup:
 2.  **Reactor Count**: Enter `X` for a `2 x X` setup (e.g., entering `2` calculates for a `2x2` setup). You can also enter `0.5` for a single reactor.
 3.  **Component Tiers**: Select your Heat Exchanger and Steam Turbine tiers.
 
-### Example Output
+Example Output
 
 ```text
---- Bob's Mods Nuclear Power Calculator ---
-Reactor Tier (1-3, or 'MOX'): 2
-Number of Reactors (2 x X), enter X: 2
+--- Bob's Mods & Plutonium Energy Nuclear Power Calculator ---
+Reactor Tier (1-3, 'MOX', or 'Breeder'): 2
+Number of Reactors (2 x X), enter X (or 0.5 for a single reactor): 2
 Heat Exchanger Tier (1-4): 2
 Steam Turbine Tier (1-3): 2
 
 --- Results ---
-Total Reactor Output:  288
+Total Reactor Output:  288 MW
 Total Tier 2 Exchangers Needed:  28
 Total Tier 2 Turbines Needed:  40
 Total Offshore Pumps Needed: 2
-You will need 2 groups of 20 heat exchangers (2x10)
+Potential Layouts for 28 exchangers:
+2 groups of 14 (2x7)
+Potential Layouts for 40 turbines:
+2 groups of 20 (2x10, 4x5, 5x4)
+4 groups of 10 (2x5)
 ```
 
 ---
