@@ -29,6 +29,26 @@ def round_up_to_even(f):
     return ceil(f / 2.) * 2
 
 
+def get_layout_options(total_count):
+    """
+    Returns a list of string layouts 'RxC' where R * C == total_count.
+    Only allows layouts where R and C are integers.
+    Excludes 1xN calculations (where R or C is 1).
+    """
+    layouts = []
+    for r in range(2, int(total_count**0.5) + 1):  # Start from 2 to exclude 1xN
+        if total_count % r == 0:
+            c = total_count // r
+            # Add both RxC and CxR
+            layouts.append(f"{r}x{c}")
+            if r != c:
+                layouts.append(f"{c}x{r}")
+
+    # Sort by number of rows for consistency
+    layouts.sort(key=lambda s: int(s.split('x')[0]))
+    return layouts
+
+
 def get_valid_input(prompt, valid_options, transform=int):
     """
     Prompts the user for input until a valid option is provided.
@@ -150,7 +170,17 @@ def main():
     print(f"Total Tier {exchanger_tier} Exchangers Needed: ", round_up_to_even(results["needed_exchangers"]))
     print(f"Total Tier {turbine_tier} Turbines Needed: ", round_up_to_even(results["needed_turbines"]))
     print("Total Offshore Pumps Needed:", round_up_to_even(results["needed_pumps"]))
-    print("You will need", ceil(results["exchanger_modules"]), "groups of 20 heat exchangers (2x10)")
+
+    needed_exchangers = round_up_to_even(results["needed_exchangers"])
+    exchanger_layouts = get_layout_options(needed_exchangers)
+    print(f"Recommended Layouts (Rows x Columns) for {needed_exchangers} exchangers:")
+    print(", ".join(exchanger_layouts)) if exchanger_layouts else print("No non-linear layouts found.")
+
+    needed_turbines = round_up_to_even(results["needed_turbines"])
+    turbine_layouts = get_layout_options(needed_turbines)
+    print(f"Recommended Layouts (Rows x Columns) for {needed_turbines} turbines:")
+    print(", ".join(turbine_layouts)) if turbine_layouts else print("No non-linear layouts found.")
+
 
 
 if __name__ == "__main__":

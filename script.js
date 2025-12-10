@@ -25,6 +25,26 @@ function roundUpToEven(f) {
     return Math.ceil(f / 2) * 2;
 }
 
+function getLayoutOptions(totalCount) {
+    const layouts = [];
+    for (let r = 2; r <= Math.sqrt(totalCount); r++) { // Start from 2 to exclude 1xN
+        if (totalCount % r === 0) {
+            const c = totalCount / r;
+            layouts.push(`${r}x${c}`);
+            if (r !== c) {
+                layouts.push(`${c}x${r}`);
+            }
+        }
+    }
+    // Sort by rows numerical order
+    layouts.sort((a, b) => {
+        const rowA = parseInt(a.split('x')[0]);
+        const rowB = parseInt(b.split('x')[0]);
+        return rowA - rowB;
+    });
+    return layouts;
+}
+
 // Main Calculation Function
 function calculateNuclearSetup(reactorTier, reactorCount, exchangerTier, turbineTier) {
     const reactorOutputPerUnit = REACTOR_OUTPUTS[reactorTier];
@@ -85,6 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const outputExchangers = document.getElementById('needed-exchangers');
     const outputModules = document.getElementById('exchanger-modules');
     const outputTurbines = document.getElementById('needed-turbines');
+    const outputTurbineLayouts = document.getElementById('turbine-layouts');
     const outputPumps = document.getElementById('needed-pumps');
 
     function updateCalculations() {
@@ -111,8 +132,21 @@ document.addEventListener('DOMContentLoaded', () => {
         // Animate numbers? For now, just set them.
         outputTotal.textContent = `${results.totalOutput.toLocaleString()} MW`;
         outputExchangers.textContent = roundUpToEven(results.neededExchangers);
-        outputModules.textContent = `${Math.ceil(results.exchangerModules)} groups of 20 heat exchangers (2x10)`;
-        outputTurbines.textContent = roundUpToEven(results.neededTurbines);
+
+        const totalExchangers = roundUpToEven(results.neededExchangers);
+        const exchangerLayouts = getLayoutOptions(totalExchangers);
+        outputModules.textContent = exchangerLayouts.length > 0
+            ? `Recommended Layouts: ${exchangerLayouts.join(", ")}`
+            : "No even rectangular layouts found.";
+
+        const totalTurbines = roundUpToEven(results.neededTurbines);
+        const turbineLayouts = getLayoutOptions(totalTurbines);
+
+        outputTurbines.textContent = totalTurbines;
+        outputTurbineLayouts.textContent = turbineLayouts.length > 0
+            ? `Recommended Layouts: ${turbineLayouts.join(", ")}`
+            : "No non-linear layouts found.";
+
         outputPumps.textContent = roundUpToEven(results.neededPumps);
     }
 
