@@ -60,6 +60,16 @@ function getGroupedLayoutSuggestions(totalItems, reactorCount, only2xN = false) 
         possibleGroups.push(2);
     }
 
+    // Add all other integer factors of totalItems
+    for (let i = 2; i <= Math.sqrt(totalItems); i++) {
+        if (totalItems % i === 0) {
+            possibleGroups.push(i);
+            if (i !== totalItems / i) {
+                possibleGroups.push(totalItems / i);
+            }
+        }
+    }
+
     // sort unique
     const uniqueGroups = [...new Set(possibleGroups)].sort((a, b) => a - b);
 

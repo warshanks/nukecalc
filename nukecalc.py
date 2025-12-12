@@ -182,6 +182,13 @@ def main():
         if 2 not in possible_groups and total_items % 2 == 0:
             possible_groups.append(2)
 
+        # Add all other integer factors of total_items
+        for i in range(2, int(total_items**0.5) + 1):
+            if total_items % i == 0:
+                possible_groups.append(i)
+                if i != total_items // i:
+                    possible_groups.append(total_items // i)
+
         unique_groups = sorted(list(set(possible_groups)))
         suggestions = []
 
