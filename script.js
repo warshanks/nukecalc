@@ -66,21 +66,45 @@ function getGroupedLayoutSuggestions(totalItems, reactorCount, only2xN = false) 
     const suggestions = [];
 
     for (const groups of uniqueGroups) {
-        if (totalItems % groups !== 0) continue;
-
-        const itemsPerGroup = totalItems / groups;
-        let layouts = getRectangularLayouts(itemsPerGroup);
+        // If strict 2xN mode is off (Turbines), we skip if not divisible
+        if (!only2xN && totalItems % groups !== 0) continue;
 
         if (only2xN) {
-            layouts = layouts.filter(l => l.startsWith("2×"));
-        }
+            // Logic for Heat Exchangers: Force 2xN where N is even (so items divisible by 4)
+            // We allow "filling up" to the nearest symmetrical numeric, so we don't strictly require divisibility by groups initially.
 
-        if (layouts.length === 0) continue;
+            const rawItemsPerGroup = totalItems / groups;
+            // We want itemsPerGroup to be a multiple of 4 (2 rows * even columns)
+            // e.g. 15 -> 16 (2x8). 30 -> 32 (2x16).
+            const targetItemsPerGroup = Math.ceil(Math.ceil(rawItemsPerGroup) / 4) * 4;
 
-        if (groups === 1) {
-            suggestions.push(`${itemsPerGroup} (${layouts.join(", ")})`);
+            const layout = `2×${targetItemsPerGroup / 2}`;
+            const totalRequired = targetItemsPerGroup * groups;
+            const excess = totalRequired - totalItems;
+
+            let note = "";
+            if (excess > 0) {
+                note = ` <span class="note">(+${excess} extra for symmetry)</span>`;
+            }
+
+            if (groups === 1) {
+                suggestions.push(`${targetItemsPerGroup} (${layout})${note}`);
+            } else {
+                suggestions.push(`${groups} groups of ${targetItemsPerGroup} (${layout})${note}`);
+            }
+
         } else {
-            suggestions.push(`${groups} groups of ${itemsPerGroup} (${layouts.join(", ")})`);
+            // Standard logic (Steam Turbines)
+            const itemsPerGroup = totalItems / groups;
+            const layouts = getRectangularLayouts(itemsPerGroup);
+
+            if (layouts.length === 0) continue;
+
+            if (groups === 1) {
+                suggestions.push(`${itemsPerGroup} (${layouts.join(", ")})`);
+            } else {
+                suggestions.push(`${groups} groups of ${itemsPerGroup} (${layouts.join(", ")})`);
+            }
         }
     }
 

@@ -186,22 +186,40 @@ def main():
         suggestions = []
 
         for groups in unique_groups:
-            if total_items % groups != 0:
+            # If strict 2xN mode is off, we skip if not divisible
+            if not only_2xN and total_items % groups != 0:
                 continue
-
-            items_per_group = int(total_items / groups)
-            layouts = get_layout_options(items_per_group)
 
             if only_2xN:
-                layouts = [l for l in layouts if l.startswith("2x")]
+                # Logic for Heat Exchangers: Force 2xN where N is even (items divisible by 4)
+                raw_items_per_group = total_items / groups
+                target_items_per_group = ceil(ceil(raw_items_per_group) / 4) * 4
 
-            if not layouts:
-                continue
+                layout_n = int(target_items_per_group / 2)
+                layout = f"2x{layout_n}"
+                total_required = target_items_per_group * groups
+                excess = int(total_required - total_items)
 
-            if groups == 1:
-                suggestions.append(f"{items_per_group} ({', '.join(layouts)})")
+                note = ""
+                if excess > 0:
+                    note = f" (+{excess} extra for symmetry)"
+
+                if groups == 1:
+                    suggestions.append(f"{target_items_per_group} ({layout}){note}")
+                else:
+                    suggestions.append(f"{groups} groups of {target_items_per_group} ({layout}){note}")
+
             else:
-                suggestions.append(f"{groups} groups of {items_per_group} ({', '.join(layouts)})")
+                items_per_group = int(total_items / groups)
+                layouts = get_layout_options(items_per_group)
+
+                if not layouts:
+                    continue
+
+                if groups == 1:
+                    suggestions.append(f"{items_per_group} ({', '.join(layouts)})")
+                else:
+                    suggestions.append(f"{groups} groups of {items_per_group} ({', '.join(layouts)})")
 
         return suggestions
 
