@@ -53,6 +53,11 @@ header {
     margin-bottom: 0.5rem;
 }
 
+.logo .icon-container {
+    display: flex;
+    animation: spin 10s infinite linear;
+}
+
 .logo .icon {
     font-size: 2.5rem;
     animation: pulse 3s infinite ease-in-out;
@@ -260,5 +265,15 @@ footer {
     100% {
         transform: scale(1);
         opacity: 1;
+    }
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
     }
 }
