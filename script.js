@@ -79,6 +79,10 @@ function getGroupedLayoutSuggestions(totalItems, reactorCount, only2xN = false) 
         // If strict 2xN mode is off (Turbines), we skip if not divisible
         if (!only2xN && totalItems % groups !== 0) continue;
 
+        // Limit max groups for practicality
+        if (groups > 12) continue;
+
+
         if (only2xN) {
             // Logic for Heat Exchangers: Force 2xN where N is even (so items divisible by 4)
             // We allow "filling up" to the nearest symmetrical numeric, so we don't strictly require divisibility by groups initially.
