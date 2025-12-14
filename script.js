@@ -98,6 +98,8 @@ function getGroupedLayoutSuggestions(totalItems, reactorCount, only2xN = false) 
 
             let note = "";
             if (excess > 0) {
+                // If the symmetry cost is too high (arbitrarily > 4 exchangers total), don't recommend this layout
+                if (excess > 4) continue;
                 note = ` <span class="note">(+${excess} extra for symmetry)</span>`;
             }
 
