@@ -25,6 +25,21 @@ function roundUpToEven(f) {
     return Math.ceil(f / 2) * 2;
 }
 
+// Utility function: Formats power output with appropriate units (MW, GW, TW, PW, EW)
+function formatPower(megawatts) {
+    if (megawatts >= 1e12) {
+        return `${(megawatts / 1e12).toLocaleString(undefined, { maximumFractionDigits: 2 })} EW`;
+    } else if (megawatts >= 1e9) {
+        return `${(megawatts / 1e9).toLocaleString(undefined, { maximumFractionDigits: 2 })} PW`;
+    } else if (megawatts >= 1e6) {
+        return `${(megawatts / 1e6).toLocaleString(undefined, { maximumFractionDigits: 2 })} TW`;
+    } else if (megawatts >= 1000) {
+        return `${(megawatts / 1000).toLocaleString(undefined, { maximumFractionDigits: 2 })} GW`;
+    } else {
+        return `${megawatts.toLocaleString()} MW`;
+    }
+}
+
 function getRectangularLayouts(count) {
     const layouts = [];
     for (let r = 2; r <= Math.sqrt(count); r++) { // Start from 2 to exclude 1xN
@@ -211,7 +226,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Update UI
         // Animate numbers? For now, just set them.
-        outputTotal.textContent = `${results.totalOutput.toLocaleString()} MW`;
+        outputTotal.textContent = formatPower(results.totalOutput);
         outputExchangers.textContent = roundUpToEven(results.neededExchangers);
 
         const totalExchangers = roundUpToEven(results.neededExchangers);
