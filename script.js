@@ -227,7 +227,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Update UI
         // Animate numbers? For now, just set them.
         outputTotal.textContent = formatPower(results.totalOutput);
-        outputExchangers.textContent = roundUpToEven(results.neededExchangers);
+        outputExchangers.textContent = roundUpToEven(results.neededExchangers).toLocaleString();
 
         const totalExchangers = roundUpToEven(results.neededExchangers);
         const exchangerSuggestions = getGroupedLayoutSuggestions(totalExchangers, validReactorCount, true);
@@ -238,7 +238,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const totalTurbines = roundUpToEven(results.neededTurbines);
         const turbineSuggestions = getGroupedLayoutSuggestions(totalTurbines, validReactorCount);
 
-        outputTurbines.textContent = totalTurbines;
+        outputTurbines.textContent = totalTurbines.toLocaleString();
         outputTurbineLayouts.innerHTML = turbineSuggestions.length > 0
             ? `Potential Layouts:<br>${turbineSuggestions.join("<br>")}`
             : "No non-linear layouts found.";
