@@ -243,7 +243,7 @@ document.addEventListener('DOMContentLoaded', () => {
             ? `Potential Layouts:<br>${turbineSuggestions.join("<br>")}`
             : "No non-linear layouts found.";
 
-        outputPumps.textContent = Math.ceil(results.neededPumps);
+        outputPumps.textContent = Math.ceil(results.neededPumps).toLocaleString();
     }
 
     // Attach listeners
